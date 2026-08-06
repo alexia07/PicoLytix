@@ -24,7 +24,7 @@ endif()
 set(PICO_BOARD pico2 CACHE STRING "Board type")
 
 # 2. Import SDK
-include(pico_sdk_import.cmake)
+include(environment/pico_sdk_import.cmake)
 
 # 3. Define Project
 project(PicoLytix C CXX ASM)
@@ -57,8 +57,7 @@ pico_set_program_name(PicoLytix "PicoLytix")
 pico_set_program_version(PicoLytix "0.1")
 
 # 10. Generate PIO Header
-# Ensure blink.pio is in ROOT. If in src/, change path accordingly.
-pico_generate_pio_header(PicoLytix ${CMAKE_CURRENT_LIST_DIR}/blink.pio)
+pico_generate_pio_header(PicoLytix ${CMAKE_CURRENT_LIST_DIR}/src/blink.pio)
 
 # 11. Configure I/O
 pico_enable_stdio_uart(PicoLytix 0)

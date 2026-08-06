@@ -10,8 +10,7 @@
 #include "pico/stdlib.h"
 #include <stdio.h>
 
-// LED defines
-#define LED_PIN 25
+#include "led.h"
 
 // SPI Defines
 // We are going to use SPI 0, and allocate it to the following GPIO pins
@@ -34,20 +33,6 @@
 // Data will be copied from src to dst
 const char src[] = "Hello, world! (from DMA)";
 char dst[count_of(src)];
-
-#include "blink.pio.h"
-
-void blink_pin_forever(PIO pio, uint sm, uint offset, uint pin, uint freq) {
-  blink_program_init(pio, sm, offset, pin);
-  pio_sm_set_enabled(pio, sm, true);
-  uint clock_freq_hz = clock_get_hz(clk_sys);
-
-  printf("Blinking pin %d at %d Hz\n", pin, freq);
-
-  // PIO counter program takes 3 more cycles in total than we pass as
-  // input (wait for n + 1; mov; jmp)
-  pio->txf[sm] = (clock_freq_hz / (2 * freq)) - 3;
-}
 
 int64_t alarm_callback(alarm_id_t id, void *user_data) {
   // Put your timeout handler code in here
@@ -121,15 +106,12 @@ int main() {
   // receive buffer (dst), so we can print it out from there.
   // puts(dst);
 
-  // PIO Blinking example
-  PIO pio = pio0;
-  uint offset = pio_add_program(pio, &blink_program);
-  printf("Loaded program at %d\n", offset);
+  blink_init();
 
 #ifdef LED_PIN
-  blink_pin_forever(pio, 0, offset, LED_PIN, 1);
+  blink_pin_forever(0, LED_PIN, 1);
 #else
-  blink_pin_forever(pio, 0, offset, 6, 1);
+  blink_pin_forever(0, 6, 1);
 #endif
   // For more pio examples see
   // https://github.com/raspberrypi/pico-examples/tree/master/pio
