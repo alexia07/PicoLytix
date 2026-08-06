@@ -56,14 +56,26 @@ target_include_directories(PicoLytix PRIVATE
 pico_set_program_name(PicoLytix "PicoLytix")
 pico_set_program_version(PicoLytix "0.1")
 
-# 10. Generate PIO Header
+# 10. Formatting
+message(STATUS "Auto-formatting")
+add_custom_target(auto-format
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/tools/format.sh
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Auto-formatting source files..."
+    VERBATIM
+)
+
+# Force build to run auto-format first
+add_dependencies(PicoLytix auto-format)
+
+# 11. Generate PIO Header
 pico_generate_pio_header(PicoLytix ${CMAKE_CURRENT_LIST_DIR}/src/blink.pio)
 
-# 11. Configure I/O
+# 12. Configure I/O
 pico_enable_stdio_uart(PicoLytix 0)
 pico_enable_stdio_usb(PicoLytix 1)
 
-# 12. Link Libraries
+# 13. Link Libraries
 target_link_libraries(PicoLytix
     pico_stdlib
     hardware_spi
@@ -77,5 +89,5 @@ target_link_libraries(PicoLytix
     pico_stdio_usb
 )
 
-# 13. Generate Outputs
+# 14. Generate Outputs
 pico_add_extra_outputs(PicoLytix)
