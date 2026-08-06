@@ -26,19 +26,6 @@ int64_t alarm_callback(alarm_id_t id, void *user_data) {
 int main() {
   stdio_usb_init();
 
-  // SPI initialisation. This example will use SPI at 1MHz.
-  // spi_init(SPI_PORT, 1000*1000);
-  // gpio_set_function(PIN_MISO, GPIO_FUNC_SPI);
-  // gpio_set_function(PIN_CS,   GPIO_FUNC_SIO);
-  // gpio_set_function(PIN_SCK,  GPIO_FUNC_SPI);
-  // gpio_set_function(PIN_MOSI, GPIO_FUNC_SPI);
-
-  // Chip select is active-low, so we'll initialise it to a driven-high state
-  // gpio_set_dir(PIN_CS, GPIO_OUT);
-  // gpio_put(PIN_CS, 1);
-  // For more examples of SPI use see
-  // https://github.com/raspberrypi/pico-examples/tree/master/spi
-
   // I2C Initialisation. Using it at 400Khz.
   // i2c_init(I2C_PORT, 400*1000);
 
