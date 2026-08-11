@@ -10,8 +10,8 @@
 
 /**
  * @brief Initializes the SPI interface with a custom baud rate.
- * @param baudrate The desired baud rate for SPI communication.
+ * @param baudrate_Hz The desired baud rate for SPI communication in Hertz.
  */
-void spi_init_custom(uint baudrate);
+void spi_init_custom(uint baudrate_Hz);
 
 #endif // SPI_H

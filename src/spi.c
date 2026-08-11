@@ -8,8 +8,8 @@
 
 #include "../board/pico2.h"
 
-void spi_init_custom(uint baudrate) {
-  spi_init(SPI_PORT, baudrate);
+void spi_init_custom(uint baudrate_Hz) {
+  spi_init(SPI_PORT, baudrate_Hz);
   gpio_set_function(SPI_MISO, GPIO_FUNC_SPI);
   gpio_set_function(SPI_CS, GPIO_FUNC_SIO);
   gpio_set_function(SPI_SCK, GPIO_FUNC_SPI);

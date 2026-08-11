@@ -5,3 +5,4 @@
 
 #define UART_BAUD_RATE 115200
 #define SPI_BAUD_RATE 1000000 // 1 MHz
+#define I2C_BAUD_RATE 400000  // 400 kHz
