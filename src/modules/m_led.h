@@ -1,10 +1,10 @@
 /**
- * @file led.h
- * @brief Header file for LED control functions.
+ * @file m_led.h
+ * @brief Header file for the LED module.
  */
 
-#ifndef LED_H
-#define LED_H
+#ifndef M_LED_H
+#define M_LED_H
 
 #include "pico/stdlib.h"
 
@@ -21,4 +21,4 @@ void blink_init(void);
  */
 void blink_pin_forever(uint sm, uint pin, uint freq);
 
-#endif // LED_H
+#endif // M_LED_H

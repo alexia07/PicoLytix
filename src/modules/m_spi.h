@@ -1,10 +1,12 @@
 /**
- * @file spi.h
- * @brief Header file for SPI control functions.
+ * @file m_spi.h
+ * @brief Header file for the SPI module.
  */
 
-#ifndef SPI_H
-#define SPI_H
+#ifndef M_SPI_H
+#define M_SPI_H
+
+#include "m_spi.h"
 
 #include "pico/stdlib.h"
 
@@ -12,6 +14,6 @@
  * @brief Initializes the SPI interface with a custom baud rate.
  * @param baudrate_Hz The desired baud rate for SPI communication in Hertz.
  */
-void spi_init_custom(uint baudrate_Hz);
+void m_spi_init(uint baudrate_Hz);
 
-#endif // SPI_H
+#endif // M_SPI_H

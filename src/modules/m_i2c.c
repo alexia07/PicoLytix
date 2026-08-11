@@ -1,14 +1,16 @@
 /**
- * @file i2c.c
- * @brief Implementation of I2C control functions.
+ * @file m_i2c.c
+ * @brief Implementation of the I2C module.
  */
 
-#include "hardware/i2c.h"
+#include "m_i2c.h"
+
 #include "hardware/gpio.h"
+#include "hardware/i2c.h"
 
 #include "../board/pico2.h"
 
-void i2c_init_custom(uint baudrate_Hz) {
+void m_i2c_init(uint baudrate_Hz) {
   i2c_init(I2C_PORT, baudrate_Hz);
 
   gpio_set_function(I2C_SDA, GPIO_FUNC_I2C);

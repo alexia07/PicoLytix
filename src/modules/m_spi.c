@@ -1,14 +1,14 @@
 /**
- * @file spi.c
- * @brief Implementation of SPI control functions.
+ * @file m_spi.c
+ * @brief Implementation of the SPI module.
  */
 
-#include "hardware/spi.h"
 #include "hardware/gpio.h"
+#include "hardware/spi.h"
 
 #include "../board/pico2.h"
 
-void spi_init_custom(uint baudrate_Hz) {
+void m_spi_init(uint baudrate_Hz) {
   spi_init(SPI_PORT, baudrate_Hz);
   gpio_set_function(SPI_MISO, GPIO_FUNC_SPI);
   gpio_set_function(SPI_CS, GPIO_FUNC_SIO);

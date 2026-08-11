@@ -12,7 +12,7 @@
 
 #include "board/pico2.h"
 #include "config/conf_board.h"
-#include "led.h"
+#include "modules/m_led.h"
 
 // Data will be copied from src to dst
 const char src[] = "Hello, world! (from DMA)";

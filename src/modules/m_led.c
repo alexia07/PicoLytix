@@ -1,9 +1,9 @@
 /**
- * @file led.c
- * @brief Implementation of LED control functions.
+ * @file m_led.c
+ * @brief Implementation of the LED module.
  */
 
-#include "led.h"
+#include "m_led.h"
 
 #include "hardware/clocks.h"
 #include "hardware/pio.h"

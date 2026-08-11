@@ -1,10 +1,10 @@
 /**
- * @file i2c.h
- * @brief Header file for I2C control functions.
+ * @file m_i2c.h
+ * @brief Header file for the I2C module.
  */
 
-#ifndef I2C_H
-#define I2C_H
+#ifndef M_I2C_H
+#define M_I2C_H
 
 #include "pico/stdlib.h"
 
@@ -12,6 +12,6 @@
  * @brief Initializes the I2C interface with a custom baud rate.
  * @param baudrate_Hz The desired baud rate for I2C communication in Hertz.
  */
-void i2c_init_custom(uint baudrate_Hz);
+void m_i2c_init(uint baudrate_Hz);
 
-#endif // I2C_H
+#endif // M_I2C_H
