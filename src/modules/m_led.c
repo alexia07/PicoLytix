@@ -27,3 +27,6 @@ void blink_pin_forever(uint sm, uint pin, uint freq) {
   // input (wait for n + 1; mov; jmp)
   pio->txf[sm] = (clock_freq_hz / (2 * freq)) - 3;
 }
+
+// For more pio examples see
+// https://github.com/raspberrypi/pico-examples/tree/master/pio
