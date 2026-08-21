@@ -1,3 +1,4 @@
+#include "errno.h"
 #include "hardware/clocks.h"
 #include "hardware/i2c.h"
 #include "hardware/pio.h"
@@ -17,7 +18,19 @@
 // }
 
 int32_t main() {
-  stdio_usb_init();
+  bool rc = stdio_usb_init();
+  while (!stdio_usb_connected()) {
+    tight_loop_contents();
+  }
+
+  sleep_ms(500);
+  printf("\n✅ USB Connected!\n");
+
+  if (!rc) {
+    printf("Error: Unable to initialize USB stdio.\n");
+    return -EIO;
+  }
+
   blink_init();
 
 #ifdef LED_PIN
@@ -35,13 +48,14 @@ int32_t main() {
     printf("Rebooted by Watchdog!\n");
   }
 
-  watchdog_enable(WATCHDOG_TIMEOUT_MS, 1);
-
   printf("System Clock Frequency is %u Hz\n", clock_get_hz(clk_sys));
   printf("USB Clock Frequency is %u Hz\n", clock_get_hz(clk_usb));
+
+  watchdog_enable(WATCHDOG_TIMEOUT_MS, 1);
 
   while (true) {
     printf("Hello, world!\n");
     sleep_ms(1000);
+    watchdog_update();
   }
 }
