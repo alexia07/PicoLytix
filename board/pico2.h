@@ -33,3 +33,6 @@
 
 // built-in LED pin
 #define LED_PIN 25
+
+// Number of GPIO pins available on the board
+#define NUM_GPIO 29

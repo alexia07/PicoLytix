@@ -3,6 +3,8 @@
  * @brief Implementation of the DMA module.
  */
 
+#include "m_dma.h"
+
 #include "hardware/dma.h"
 #include "pico/stdlib.h"
 #include <stdio.h>
@@ -11,9 +13,12 @@
 const char src[] = "Hello, world! (from DMA)";
 char dst[count_of(src)];
 
-void m_dma_init(void) {
-  // Get a free channel, panic() if there are none
-  int chan = dma_claim_unused_channel(true);
+error_t m_dma_init(void) {
+  int32_t chan = dma_claim_unused_channel(true);
+  if (chan < 0) {
+    printf("m_dma: Error: No available DMA channels.\n");
+    return -ENODEV;
+  }
 
   // 8 bit transfers. Both read and write address increment after each
   // transfer (each pointing to a location in src or dst respectively).
@@ -41,4 +46,5 @@ void m_dma_init(void) {
   // The DMA has now copied our text from the transmit buffer (src) to the
   // receive buffer (dst), so we can print it out from there.
   puts(dst);
+  return 0;
 }
