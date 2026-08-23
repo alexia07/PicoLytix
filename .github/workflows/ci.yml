@@ -70,37 +70,32 @@ jobs:
         make
         sudo make install
 
-    # 6. Check Code Formatting
+    # 6. Make Scripts Executable (Safety Step)
+    - name: Make Scripts Executable
+      run: |
+        cd tools/
+        chmod +x format.sh static_analysis.sh
+
+    # 7. Run Formatting Check (Using your script)
     - name: Check Code Formatting
       run: |
-        echo "Running clang-format check..."
-        if ! find src -type f \( -name "*.c" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" \) | xargs clang-format --dry-run --Werror --style=file; then
-          echo "❌ Formatting check failed!"
+        echo "🎨 Running format.sh..."
+        ./format.sh
+        
+        # Check if any files were modified by the formatter
+        if ! git diff --quiet; then
+          echo "❌ Formatting check failed! The following files were modified:"
+          git diff
+          echo "Please run './format.sh' locally and commit the changes."
           exit 1
         fi
         echo "✅ Formatting passed."
 
-    # 7. Static Analysis (Cppcheck)
+    # 8. Run Static Analysis (Using your script)
     - name: Run Static Analysis
       run: |
-        echo "Running cppcheck..."
-        # Define include paths for SDK
-        SDK_INC="/tmp/pico-sdk/src/common/pico_stdlib/include"
-        HW_INC="/tmp/pico-sdk/src/common/hardware_regs/include"
-        
-        if ! cppcheck --enable=all \
-                 --inconclusive \
-                 --error-exitcode=1 \
-                 --std=c11 \
-                 --suppress=missingIncludeSystem \
-                 --suppress=unusedFunction \
-                 -I src \
-                 -I "$SDK_INC" \
-                 -I "$HW_INC" \
-                 src/; then
-          echo "❌ Static analysis failed!"
-          exit 1
-        fi
+        echo "🔍 Running static_analysis.sh"
+        ./static_analysis.sh
         echo "✅ Static analysis passed."
 
     # 8. Build Project
@@ -128,7 +123,7 @@ jobs:
           exit 1
         fi
 
-    # 9. Upload Artifact
+    # 10. Upload Artifact
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       if: success()
