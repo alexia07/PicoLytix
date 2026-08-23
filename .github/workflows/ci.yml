@@ -35,9 +35,9 @@ jobs:
         echo "Installing RISC-V Toolchain for RP2350..."
         cd /tmp
         # Download the pre-built RISC-V toolchain for Linux
-        wget https://github.com/raspberrypi/pico-setup/raw/master/download/pico-setup-riscv.tar.gz
-        mkdir -p pico-riscv
-        tar -xzf pico-setup-riscv.tar.gz -C pico-riscv
+        wget https://raw.githubusercontent.com/raspberrypi/pico-setup/master/pico_setup.sh
+        chmod +x pico_setup.sh
+        ./pico_setup.sh
         
         # Set environment variables
         export PICO_TOOLCHAIN_PATH="/tmp/pico-riscv"
