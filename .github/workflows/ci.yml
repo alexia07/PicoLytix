@@ -80,14 +80,13 @@ jobs:
     - name: Check Code Formatting
       run: |
         echo "🎨 Running format.sh..."
-        cd tools/
-        ./format.sh
+        ./tools/format.sh
         
         # Check if any files were modified by the formatter
         if ! git diff --quiet; then
           echo "❌ Formatting check failed! The following files were modified:"
           git diff
-          echo "Please run './format.sh' locally and commit the changes."
+          echo "Please run './tools/format.sh' locally and commit the changes."
           exit 1
         fi
         echo "✅ Formatting passed."
@@ -96,8 +95,7 @@ jobs:
     - name: Run Static Analysis
       run: |
         echo "🔍 Running static_analysis.sh"
-        cd tools/
-        ./static_analysis.sh
+        ./tools/static_analysis.sh
         echo "✅ Static analysis passed."
 
     # 8. Build Project
