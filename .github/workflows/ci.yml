@@ -80,6 +80,7 @@ jobs:
     - name: Check Code Formatting
       run: |
         echo "🎨 Running format.sh..."
+        cd tools/
         ./format.sh
         
         # Check if any files were modified by the formatter
@@ -95,6 +96,7 @@ jobs:
     - name: Run Static Analysis
       run: |
         echo "🔍 Running static_analysis.sh"
+        cd tools/
         ./static_analysis.sh
         echo "✅ Static analysis passed."
 
