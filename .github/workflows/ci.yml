@@ -60,17 +60,25 @@ jobs:
     # 6. Install RISC-V Toolchain (For Pico 2 / RP2350)
     - name: Setup RISC-V Toolchain
       run: |
-        echo "Installing RISC-V Toolchain for RP2350..."
+        echo "Installing RISC-V Toolchain for RP2350 (x86_64)..."
         cd /tmp
-        # Download the pre-built RISC-V toolchain for Linux
-        wget https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/riscv-toolchain-14-aarch64-lin.tar.gz
-        sudo mkdir -p /opt/riscv/riscv-toolchain-14
-        sudo chown $USER /opt/riscv/riscv-toolchain-14
-        tar xvf riscv-toolchain-14-aarch64-lin.tar.gz -C /opt/riscv/riscv-toolchain-14
         
-        # Set environment variables
-        export PICO_TOOLCHAIN_PATH=/opt/riscv/riscv-toolchain-14/
-        export PICO_PLATFORM=rp2350-riscv
+        # Correct URL for x86_64 Linux (GitHub Actions Runner)
+        wget https://github.com/raspberrypi/pico-setup/raw/master/download/riscv-toolchain-14-x86_64-lin.tar.xz
+        
+        mkdir -p /opt/riscv
+        tar -xf riscv-toolchain-14-x86_64-lin.tar.xz -C /opt/riscv
+        
+        # The toolchain is now in /opt/riscv/riscv-toolchain-14
+        TOOLCHAIN_PATH="/opt/riscv/riscv-toolchain-14"
+        
+        # Verify compiler exists
+        ls -l "$TOOLCHAIN_PATH/bin/riscv32-unknown-elf-gcc"
+        
+        # Save to GITHUB_ENV so it persists to next steps
+        echo "PICO_TOOLCHAIN_PATH=$TOOLCHAIN_PATH" >> $GITHUB_ENV
+        echo "PICO_PLATFORM=rp2350-riscv" >> $GITHUB_ENV
+        echo "PICO_COMPILER=pico_riscv_gcc" >> $GITHUB_ENV
 
     # 7. Install Pico SDK
     - name: Setup Pico SDK
@@ -99,46 +107,41 @@ jobs:
         make
         sudo make install
 
-    # 9. Build Project (Explicitly RISC-V for RP2350)
+    # 9. Build Project (Explicitly RISC-V)
     - name: Build PicoLytix (RP2350 RISC-V)
-      # env:
-      #   PICO_SDK_PATH: $HOME/.pico-sdk
-      #   PICO_TOOLCHAIN_PATH: $HOME/.pico-sdk/tools/riscv32-unknown-elf-gcc/bin
       run: |
-        echo "🔨 Starting Build for Raspberry Pi Pico 2 (RP2350)..."
+        echo "🔨 Starting Build for Raspberry Pi Pico 2 (RP2350 RISC-V)..."
         
-        # 2. Verify Environment Variables
+        # Verify Environment Variables are set
         echo "PICO_SDK_PATH: $PICO_SDK_PATH"
         echo "PICO_TOOLCHAIN_PATH: $PICO_TOOLCHAIN_PATH"
+        echo "PICO_PLATFORM: $PICO_PLATFORM"
+        echo "PICO_COMPILER: $PICO_COMPILER"
         
-        # 3. Create Build Directory
+        # Verify compiler is accessible
+        $PICO_TOOLCHAIN_PATH/bin/riscv32-unknown-elf-gcc --version
+        
         mkdir -p build
         cd build
         
-        # 4. Configure CMake
-        # -DPICO_BOARD=pico2: Forces RP2350 architecture
-        # -DPICO_TOOLCHAIN_PATH: Forces the RISC-V compiler found in /tmp/pico-riscv
         echo "Running CMake configuration..."
         cmake .. \
           -DPICO_BOARD=pico2 \
+          -DPICO_PLATFORM=rp2350-riscv \
+          -DPICO_COMPILER=pico_riscv_gcc \
           -DPICO_TOOLCHAIN_PATH=$PICO_TOOLCHAIN_PATH \
           -DCMAKE_BUILD_TYPE=Release
         
-        # 5. Compile
         echo "Compiling..."
         make -j$(nproc)
         
-        # 6. Verify Output
         if [ -f "PicoLytix.uf2" ]; then
           echo "✅ Build Successful!"
-          echo "📦 Artifact: PicoLytix.uf2"
           ls -lh PicoLytix.uf2
-          
-          # Optional: Verify the binary architecture using 'file' command
           echo "🔍 Verifying binary architecture..."
           file PicoLytix.elf
         else
-          echo "❌ Build Failed: PicoLytix.uf2 not found."
+          echo "❌ Build Failed: UF2 not found."
           exit 1
         fi
 
