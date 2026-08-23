@@ -76,14 +76,15 @@ jobs:
     - name: Setup Pico SDK
       run: |
         echo "Installing Pico SDK..."
-        cd /tmp
+        cd ${HOME}
         git clone https://github.com/raspberrypi/pico-sdk.git
-        cd pico-sdk
+        rename pico-sdk .pico-sdk
+        cd .pico-sdk
         git checkout master
         git submodule update --init
         
         # Set environment variables
-        export PICO_SDK_PATH="/tmp/pico-sdk"
+        export PICO_SDK_PATH="${HOME}/.pico-sdk"
         echo "PICO_SDK_PATH=$PICO_SDK_PATH" >> $GITHUB_ENV
 
     # 8. Install Picotool (Optional but good for UF2 validation)
@@ -100,9 +101,9 @@ jobs:
 
     # 9. Build Project
     - name: Build PicoLytix (RP2350)
-      env:
-        PICO_SDK_PATH: /tmp/pico-sdk
-        PICO_TOOLCHAIN_PATH: /tmp/pico-sdk/tools/riscv32-unknown-elf-gcc/bin
+    #   env:
+    #     PICO_SDK_PATH: ~/.pico-sdk
+    #     PICO_TOOLCHAIN_PATH: ~ /.pico-sdk/tools/riscv32-unknown-elf-gcc/bin
       run: |
         echo "Building project for Pico 2..."
         mkdir -p build
