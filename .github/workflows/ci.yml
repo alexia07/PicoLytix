@@ -35,17 +35,14 @@ jobs:
         echo "Installing RISC-V Toolchain for RP2350..."
         cd /tmp
         # Download the pre-built RISC-V toolchain for Linux
-        wget https://raw.githubusercontent.com/raspberrypi/pico-setup/master/pico_setup.sh
-        chmod +x pico_setup.sh
-        ./pico_setup.sh
+        wget https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/riscv-toolchain-14-aarch64-lin.tar.gz
+        sudo mkdir -p /opt/riscv/riscv-toolchain-14
+        sudo chown $USER /opt/riscv/riscv-toolchain-14
+        tar xvf riscv-toolchain-14-aarch64-lin.tar.gz -C /opt/riscv/riscv-toolchain-14
         
         # Set environment variables
-        export PICO_TOOLCHAIN_PATH="/tmp/pico-riscv"
-        export PATH="$PICO_TOOLCHAIN_PATH/bin:$PATH"
-        
-        # Verify installation
-        riscv32-unknown-elf-gcc --version
-        echo "PICO_TOOLCHAIN_PATH=$PICO_TOOLCHAIN_PATH" >> $GITHUB_ENV
+        export PICO_TOOLCHAIN_PATH=/opt/riscv/riscv-toolchain-14/
+        export PICO_PLATFORM=rp2350-riscv
 
     # 4. Install Pico SDK
     - name: Setup Pico SDK
@@ -117,7 +114,7 @@ jobs:
         cd build
         
         # Configure with Pico 2 board and Release mode
-        cmake .. -DPICO_BOARD=pico2 -DCMAKE_BUILD_TYPE=Release
+        cmake ..
         
         # Build
         make -j$(nproc)
