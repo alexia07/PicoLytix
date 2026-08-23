@@ -99,28 +99,51 @@ jobs:
         make
         sudo make install
 
-    # 9. Build Project
-    - name: Build PicoLytix (RP2350)
-    #   env:
-    #     PICO_SDK_PATH: ~/.pico-sdk
-    #     PICO_TOOLCHAIN_PATH: ~ /.pico-sdk/tools/riscv32-unknown-elf-gcc/bin
+    # 9. Build Project (Explicitly RISC-V for RP2350)
+    - name: Build PicoLytix (RP2350 RISC-V)
+      env:
+        PICO_SDK_PATH: $HOME/.pico-sdk
+        PICO_TOOLCHAIN_PATH: $HOME/.pico-sdk/tools/riscv32-unknown-elf-gcc/bin
       run: |
-        echo "Building project for Pico 2..."
+        echo "🔨 Starting Build for Raspberry Pi Pico 2 (RP2350)..."
+        
+        # 1. Verify the RISC-V Compiler is found
+        echo "Checking RISC-V Compiler..."
+        which riscv32-unknown-elf-gcc
+        riscv32-unknown-elf-gcc --version
+        
+        # 2. Verify Environment Variables
+        echo "PICO_SDK_PATH: $PICO_SDK_PATH"
+        echo "PICO_TOOLCHAIN_PATH: $PICO_TOOLCHAIN_PATH"
+        
+        # 3. Create Build Directory
         mkdir -p build
         cd build
         
-        # Configure with Pico 2 board and Release mode
-        cmake ..
+        # 4. Configure CMake
+        # -DPICO_BOARD=pico2: Forces RP2350 architecture
+        # -DPICO_TOOLCHAIN_PATH: Forces the RISC-V compiler found in /tmp/pico-riscv
+        echo "Running CMake configuration..."
+        cmake .. \
+          -DPICO_BOARD=pico2 \
+          -DPICO_TOOLCHAIN_PATH=$PICO_TOOLCHAIN_PATH \
+          -DCMAKE_BUILD_TYPE=Release
         
-        # Build
+        # 5. Compile
+        echo "Compiling..."
         make -j$(nproc)
         
-        # Verify UF2 exists
+        # 6. Verify Output
         if [ -f "PicoLytix.uf2" ]; then
-          echo "✅ Build successful!"
+          echo "✅ Build Successful!"
+          echo "📦 Artifact: PicoLytix.uf2"
           ls -lh PicoLytix.uf2
+          
+          # Optional: Verify the binary architecture using 'file' command
+          echo "🔍 Verifying binary architecture..."
+          file PicoLytix.elf
         else
-          echo "❌ Build failed: UF2 not found."
+          echo "❌ Build Failed: PicoLytix.uf2 not found."
           exit 1
         fi
 
