@@ -78,7 +78,7 @@ jobs:
         echo "Installing Pico SDK..."
         cd ${HOME}
         git clone https://github.com/raspberrypi/pico-sdk.git
-        rename pico-sdk .pico-sdk
+        mv pico-sdk .pico-sdk
         cd .pico-sdk
         git checkout master
         git submodule update --init
