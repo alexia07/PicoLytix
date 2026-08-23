@@ -63,19 +63,33 @@ jobs:
         echo "Installing RISC-V Toolchain for RP2350 (x86_64)..."
         cd /tmp
         
-        # Correct URL for x86_64 Linux (GitHub Actions Runner)
-        wget https://github.com/raspberrypi/pico-setup/raw/master/download/riscv-toolchain-14-x86_64-lin.tar.xz
+        # Download the official RISC-V toolchain for Linux x86_64
+        # Source: https://github.com/raspberrypi/pico-setup/blob/master/download/fetch_riscv_toolchain.py
+        # Direct link to the tarball used by the official setup script
+        wget https://github.com/raspberrypi/pico-setup/raw/master/download/riscv-none-elf-gcc-12.2.1_2023.02-x86_64.tar.xz
         
+        # Create directory
         mkdir -p /opt/riscv
-        tar -xf riscv-toolchain-14-x86_64-lin.tar.xz -C /opt/riscv
         
-        # The toolchain is now in /opt/riscv/riscv-toolchain-14
-        TOOLCHAIN_PATH="/opt/riscv/riscv-toolchain-14"
+        # Extract
+        tar -xf riscv-none-elf-gcc-12.2.1_2023.02-x86_64.tar.xz -C /opt/riscv
+        
+        # The extraction creates a folder like 'riscv-none-elf-gcc-12.2.1_2023.02'
+        # We need to find the exact path
+        TOOLCHAIN_PATH=$(find /opt/riscv -type d -name "riscv-none-elf-gcc*" | head -n 1)
+        
+        if [ -z "$TOOLCHAIN_PATH" ]; then
+          echo "❌ Error: Toolchain not found after extraction!"
+          ls -R /opt/riscv
+          exit 1
+        fi
+        
+        echo "✅ Toolchain installed at: $TOOLCHAIN_PATH"
         
         # Verify compiler exists
-        ls -l "$TOOLCHAIN_PATH/bin/riscv32-unknown-elf-gcc"
+        ls -l "$TOOLCHAIN_PATH/bin/riscv32-unknown-elf-gcc" || ls -l "$TOOLCHAIN_PATH/bin/riscv-none-elf-gcc"
         
-        # Save to GITHUB_ENV so it persists to next steps
+        # Save to GITHUB_ENV
         echo "PICO_TOOLCHAIN_PATH=$TOOLCHAIN_PATH" >> $GITHUB_ENV
         echo "PICO_PLATFORM=rp2350-riscv" >> $GITHUB_ENV
         echo "PICO_COMPILER=pico_riscv_gcc" >> $GITHUB_ENV
