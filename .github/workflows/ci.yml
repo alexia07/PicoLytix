@@ -101,16 +101,11 @@ jobs:
 
     # 9. Build Project (Explicitly RISC-V for RP2350)
     - name: Build PicoLytix (RP2350 RISC-V)
-      env:
-        PICO_SDK_PATH: $HOME/.pico-sdk
-        PICO_TOOLCHAIN_PATH: $HOME/.pico-sdk/tools/riscv32-unknown-elf-gcc/bin
+      # env:
+      #   PICO_SDK_PATH: $HOME/.pico-sdk
+      #   PICO_TOOLCHAIN_PATH: $HOME/.pico-sdk/tools/riscv32-unknown-elf-gcc/bin
       run: |
         echo "🔨 Starting Build for Raspberry Pi Pico 2 (RP2350)..."
-        
-        # 1. Verify the RISC-V Compiler is found
-        echo "Checking RISC-V Compiler..."
-        which riscv32-unknown-elf-gcc
-        riscv32-unknown-elf-gcc --version
         
         # 2. Verify Environment Variables
         echo "PICO_SDK_PATH: $PICO_SDK_PATH"
