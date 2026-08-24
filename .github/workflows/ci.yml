@@ -84,7 +84,7 @@ jobs:
         git clone https://github.com/raspberrypi/pico-sdk.git
         mv pico-sdk .pico-sdk
         cd .pico-sdk
-        git checkout master
+        git checkout 2.3.0
         git submodule update --init
         
         # Set environment variables
