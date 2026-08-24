@@ -6,7 +6,7 @@
 #include "hardware/gpio.h"
 #include "hardware/spi.h"
 
-#include "../board/pico2.h"
+#include "board/pico2.h"
 
 void m_spi_init(uint baudrate_Hz) {
   spi_init(SPI_PORT, baudrate_Hz);

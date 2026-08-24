@@ -6,8 +6,6 @@
 #ifndef M_SPI_H
 #define M_SPI_H
 
-#include "m_spi.h"
-
 #include "pico/stdlib.h"
 
 /**
