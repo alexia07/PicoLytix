@@ -3,6 +3,9 @@
  * @brief Header file for the DMA module.
  */
 
+#ifndef M_DMA_H
+#define M_DMA_H
+
 #include "errno.h"
 
 /**
@@ -14,3 +17,5 @@
  * @return 0 on success, negative error code on failure.
  */
 error_t m_dma_init(void);
+
+#endif // M_DMA_H
