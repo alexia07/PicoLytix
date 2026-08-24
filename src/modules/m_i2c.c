@@ -8,7 +8,7 @@
 #include "hardware/gpio.h"
 #include "hardware/i2c.h"
 
-#include "../board/pico2.h"
+#include "board/pico2.h"
 
 void m_i2c_init(uint baudrate_Hz) {
   i2c_init(I2C_PORT, baudrate_Hz);
