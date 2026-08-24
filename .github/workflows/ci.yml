@@ -108,14 +108,20 @@ jobs:
       run: |
         echo "🔨 Starting Build for Raspberry Pi Pico 2 (RP2350 RISC-V)..."
         
-        # Verify Environment Variables are set
+        # Verify Environment Variables
         echo "PICO_SDK_PATH: $PICO_SDK_PATH"
         echo "PICO_TOOLCHAIN_PATH: $PICO_TOOLCHAIN_PATH"
         echo "PICO_PLATFORM: $PICO_PLATFORM"
         echo "PICO_COMPILER: $PICO_COMPILER"
         
-        # Verify compiler is accessible
-        $PICO_TOOLCHAIN_PATH/bin/riscv32-unknown-elf-gcc --version
+        # CRITICAL: Add the toolchain bin folder to the system PATH
+        # This allows CMake to find 'riscv-none-elf-gcc' automatically
+        export PATH="$PICO_TOOLCHAIN_PATH/bin:$PATH"
+        
+        # Verify which compiler is actually available
+        echo "Available RISC-V compilers:"
+        ls -l "$PICO_TOOLCHAIN_PATH/bin/" | grep riscv
+        which riscv-none-elf-gcc || echo "riscv-none-elf-gcc not found in PATH"
         
         mkdir -p build
         cd build
