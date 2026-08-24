@@ -32,10 +32,18 @@ Built with a focus on **software quality**, **modularity**, and **performance**,
 
 Currently, the repository contains the initial project structure and proof-of-concept code.
 
+Require Pico SDK and a RISC-V toolchain, using the Raspberry Pi Pico VSCode extension is the simplest, else please refer to the CI.
+For the flashing procedure, the Raspberry Pico needs to be reset to be mounted, i.e the BOOTSEL button has to be pressed while plugging in the Pico.
+
 ```bash
 git clone https://github.com/your-username/PicoLytix.git
 cd PicoLytix
-# Build instructions coming soon
+mkdir build
+cd build
+cmake ..
+make
+cd ..
+./tools/flash_pico.sh
 ```
 
 ## 🤝 Contributing
