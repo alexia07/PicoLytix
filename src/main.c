@@ -17,19 +17,19 @@
 //   return 0;
 // }
 
-int32_t main() {
+int main() {
   bool rc = stdio_usb_init();
+  if (!rc) {
+    printf("Error: Unable to initialize USB stdio.\n");
+    return -EIO;
+  }
+
   while (!stdio_usb_connected()) {
     tight_loop_contents();
   }
 
   sleep_ms(500);
   printf("\n✅ USB Connected!\n");
-
-  if (!rc) {
-    printf("Error: Unable to initialize USB stdio.\n");
-    return -EIO;
-  }
 
   blink_init();
 
