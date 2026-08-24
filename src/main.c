@@ -1,9 +1,5 @@
 #include "errno.h"
 #include "hardware/clocks.h"
-#include "hardware/i2c.h"
-#include "hardware/pio.h"
-#include "hardware/spi.h"
-#include "hardware/timer.h"
 #include "hardware/watchdog.h"
 #include "pico/stdlib.h"
 #include <stdio.h>
