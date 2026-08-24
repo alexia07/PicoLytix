@@ -23,12 +23,8 @@ for dir in "${SEARCH_DIRS[@]}"; do
         # Find all .c and .h files recursively
         # -exec runs clang-format -i (in-place) on each found file
         # We use {} + to batch files for better performance
-        found_files=$(find "$dir" -type f \( -name "*.c" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" \))
-        
-        if [ -n "$found_files" ]; then
-            echo "$found_files" | xargs clang-format -i -style=file
-            count=$((count + $(echo "$found_files" | wc -l)))
-        fi
+        find "$dir" -type f \( -name "*.c" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" \) -exec clang-format -i -style=file {} +
+        count=$((count + $(find "$dir" -type f \( -name "*.c" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" \) | wc -l)))
     else
         echo "   ⚠️  Directory $dir not found, skipping."
     fi
