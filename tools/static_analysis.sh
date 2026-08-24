@@ -5,6 +5,12 @@ set -e
 
 echo "🔍 Running Cppcheck on PicoLytix..."
 
+# Check if cppcheck is installed
+if ! command -v cppcheck &> /dev/null; then
+    echo "❌ Error: cppcheck is not installed."
+    exit 1
+fi
+
 # Define the check command
 # --enable=all: Enable all checking classes (warning, style, performance, portability, information)
 # --inconclusive: Enable checks that might generate false positives (good for deep dives)
