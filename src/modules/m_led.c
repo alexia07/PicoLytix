@@ -76,7 +76,9 @@ error_t blink_pin_forever(uint8_t sm, uint8_t pin, uint32_t freq_hz) {
     return -EIO;
   }
 
-  uint32_t ticks = (clock_freq_hz / (2 * freq_hz));
+  uint32_t ticks =
+      (uint32_t)((uint64_t)clock_freq_hz / (2ull * (uint64_t)freq_hz));
+
   if (ticks <= PIO_COMPENSATION) {
     printf("m_led: Error: Frequency %u Hz is too high for system clock "
            "frequency %u "
