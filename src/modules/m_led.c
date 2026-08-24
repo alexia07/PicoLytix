@@ -61,6 +61,12 @@ error_t blink_pin_forever(uint8_t sm, uint8_t pin, uint32_t freq_hz) {
     return -EINVAL;
   }
 
+  if (sm >= PIO_SM_COUNT) {
+    printf("m_led: Error: State machine %u is out of range (0-%d).\n", sm,
+           PIO_SM_COUNT - 1);
+    return -EINVAL;
+  }
+
   blink_program_init(context.pio, sm, context.offset, pin);
   pio_sm_set_enabled(context.pio, sm, true);
   const uint32_t clock_freq_hz = clock_get_hz(clk_sys);
@@ -85,11 +91,6 @@ error_t blink_pin_forever(uint8_t sm, uint8_t pin, uint32_t freq_hz) {
   // input (wait for n + 1; mov; jmp)
   pio_sm_put(context.pio, sm, ticks - PIO_COMPENSATION);
 
-  if (sm >= PIO_SM_COUNT) {
-    printf("m_led: Error: State machine %u is out of range (0-%d).\n", sm,
-           PIO_SM_COUNT - 1);
-    return -EINVAL;
-  }
   return 0;
 }
 
