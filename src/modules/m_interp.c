@@ -7,6 +7,8 @@
  * applications, such as signal processing, data interpolation, and more.
  */
 
+#include "m_interp.h"
+
 #include "hardware/interp.h"
 #include "pico/stdlib.h"
 #include <stdio.h>

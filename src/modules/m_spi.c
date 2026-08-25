@@ -3,6 +3,8 @@
  * @brief Implementation of the SPI module.
  */
 
+#include "m_spi.h"
+
 #include "hardware/gpio.h"
 #include "hardware/spi.h"
 

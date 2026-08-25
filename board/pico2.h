@@ -3,6 +3,9 @@
  * @brief Pin definitions for the Raspberry Pi Pico 2 board.
  */
 
+#ifndef BOARD_PICO2_H
+#define BOARD_PICO2_H
+
 // SPI Defines
 // We are going to use SPI 0, and allocate it to the following GPIO pins
 // Pins can be changed, see the GPIO function select table in the datasheet for
@@ -36,3 +39,5 @@
 
 // Number of GPIO pins available on the board
 #define NUM_GPIO 29
+
+#endif // BOARD_PICO2_H

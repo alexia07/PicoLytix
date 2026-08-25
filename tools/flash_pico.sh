@@ -24,9 +24,8 @@ fi
 
 # Copy the file
 echo "⚡ Flashing $PROJECT_NAME to Pico..."
-cp "$UF2_FILE" "$MOUNT_POINT/"
 
-if [ $? -eq 0 ]; then
+if cp "$UF2_FILE" "$MOUNT_POINT/"; then
     echo "✅ Success! The Pico will automatically reboot and run the new code."
     echo "   The drive will disappear shortly."
 else

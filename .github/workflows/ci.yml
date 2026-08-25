@@ -27,7 +27,8 @@ jobs:
           clang-format \
           cppcheck \
           python3 \
-          libusb-1.0-0-dev
+          libusb-1.0-0-dev \
+          wget
 
     # 3. Make Scripts Executable (Safety Step)
     - name: Make Scripts Executable
