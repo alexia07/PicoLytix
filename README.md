@@ -38,6 +38,7 @@ For the flashing procedure, the Raspberry Pi Pico needs to be reset into BOOTSEL
 ```bash
 git clone https://github.com/your-username/PicoLytix.git
 cd PicoLytix
+git submodule update --init --recursive
 mkdir build
 cd build
 cmake ..

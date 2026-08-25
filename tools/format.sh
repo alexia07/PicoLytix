@@ -11,7 +11,7 @@ fi
 echo "🎨 Formatting C/C++ files in PicoLytix..."
 
 # Define the directories to search (add more if needed)
-SEARCH_DIRS=("src" "config" "board")
+SEARCH_DIRS=("src" "config" "board" "tests")
 
 # Counter for formatted files
 count=0
