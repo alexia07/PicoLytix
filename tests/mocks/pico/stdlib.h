@@ -12,9 +12,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-// Common types
-typedef unsigned int uint;
-
 // Common functions (declared here, implemented in mock_hardware.c)
 void sleep_ms(uint32_t ms);
 void panic(const char *fmt, ...);

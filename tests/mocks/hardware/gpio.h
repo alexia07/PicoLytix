@@ -7,10 +7,9 @@
 #ifndef _HARDWARE_GPIO_H
 #define _HARDWARE_GPIO_H
 
+#include "common.h"
 #include <stdbool.h>
 #include <stdint.h>
-
-typedef unsigned int uint;
 
 typedef enum {
   GPIO_FUNC_SIO = 0,

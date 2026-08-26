@@ -8,32 +8,53 @@ if ! command -v clang-format &> /dev/null; then
     exit 1
 fi
 
-echo "🎨 Formatting C/C++ files in PicoLytix..."
+echo "🎨 Checking and Formatting C/C++ files in PicoLytix..."
 
-# Define the directories to search (add more if needed)
+# Define the directories to search
 SEARCH_DIRS=("src" "config" "board" "tests")
 
-# Counter for formatted files
-count=0
+# Counter for files that needed formatting
+violations=0
+total_files=0
 
 for dir in "${SEARCH_DIRS[@]}"; do
     if [ -d "$dir" ]; then
         echo "   Scanning: $dir/"
         
-        # Find all .c and .h files recursively
-        # -exec runs clang-format -i (in-place) on each found file
-        # We use {} + to batch files for better performance
-        find "$dir" -type f \( -name "*.c" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" \) -exec clang-format -i -style=file {} +
-        count=$((count + $(find "$dir" -type f \( -name "*.c" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" \) | wc -l)))
+        # Find all relevant files
+        while IFS= read -r -d '' file; do
+            total_files=$((total_files + 1))
+            
+            # 1. Capture the state BEFORE formatting
+            before_hash=$(md5sum "$file" | awk '{print $1}')
+            
+            # 2. Format the file in-place
+            clang-format -i -style=file "$file"
+            
+            # 3. Capture the state AFTER formatting
+            after_hash=$(md5sum "$file" | awk '{print $1}')
+            
+            # 4. Compare hashes
+            if [ "$before_hash" != "$after_hash" ]; then
+                echo "      ❌ Modified: $file"
+                violations=$((violations + 1))
+            fi
+        done < <(find "$dir" -type f \( -name "*.c" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" \) -print0)
+        
     else
         echo "   ⚠️  Directory $dir not found, skipping."
     fi
 done
 
-if [ $count -gt 0 ]; then
-    echo "✅ Successfully formatted $count files."
-    exit 0
-else
-    echo "ℹ️  No C/C++ files found to format."
+echo "----------------------------------------"
+echo "Total files checked: $total_files"
+echo "Files modified:      $violations"
+
+if [ $violations -gt 0 ]; then
+    echo "❌ Formatting check FAILED! $violations file(s) were not properly formatted."
+    echo "   Please commit the changes made by this script."
     exit 1
+else
+    echo "✅ All files are properly formatted."
+    exit 0
 fi

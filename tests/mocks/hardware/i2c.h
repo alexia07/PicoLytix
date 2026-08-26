@@ -7,11 +7,10 @@
 #ifndef _HARDWARE_I2C_H
 #define _HARDWARE_I2C_H
 
+#include "common.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-
-typedef unsigned int uint;
 
 typedef struct {
   int id;

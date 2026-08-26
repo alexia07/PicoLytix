@@ -40,7 +40,7 @@ echo "   Compiling: $ALL_FILES"
 # Compile Command
 gcc -I"$SCRIPT_DIR" \
     -I"$MOCKS_DIR" \
-    -I $PROJECT_ROOT \
+    -I"$PROJECT_ROOT" \
     -I"$PROJECT_ROOT/src" \
     -I"$PROJECT_ROOT/src/modules" \
     -I"$UNITY_DIR/src" \
