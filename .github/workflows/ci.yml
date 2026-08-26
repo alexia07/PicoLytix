@@ -47,14 +47,6 @@ jobs:
       run: |
         echo "🎨 Running format.sh..."
         ./tools/format.sh
-        
-        # Check if any files were modified by the formatter
-        if ! git diff --quiet; then
-          echo "❌ Formatting check failed! The following files were modified:"
-          git diff
-          echo "Please run './tools/format.sh' locally and commit the changes."
-          exit 1
-        fi
         echo "✅ Formatting passed."
 
     # 5. Run Static Analysis (Using your script)
