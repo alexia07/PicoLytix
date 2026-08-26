@@ -32,6 +32,8 @@ done
 
 if [ $count -gt 0 ]; then
     echo "✅ Successfully formatted $count files."
+    exit 0
 else
     echo "ℹ️  No C/C++ files found to format."
+    exit 1
 fi
