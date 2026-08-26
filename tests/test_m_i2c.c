@@ -3,6 +3,8 @@
 #include "unity.h"
 #include <stdio.h>
 
+#include "modules/m_i2c.h"
+
 /* ============================================================
    REQUIRED HOOKS: Unity calls these before/after every test
    ============================================================ */
@@ -38,7 +40,7 @@ void test_i2c_mock_works(void) {
   printf("Running: test_i2c_mock_works\n");
 
   uint8_t buffer[4];
-  int result = i2c_read_blocking(&i2c0, 0x50, buffer, 4, false);
+  int result = i2c_read_blocking(i2c0, 0x50, buffer, 4, false);
 
   TEST_ASSERT_EQUAL(4, result);
   TEST_ASSERT_EQUAL(0xAA, buffer[0]);
@@ -47,6 +49,15 @@ void test_i2c_mock_works(void) {
 void test_clock_mock_works(void) {
   printf("Running: test_clock_mock_works\n");
   TEST_ASSERT_EQUAL(125000000, clock_get_hz(clk_sys));
+}
+
+void test_m_i2c_init(void) {
+  printf("Running: test_m_i2c_init\n");
+
+  uint desired_baudrate = 100000; // 100 kHz
+  uint actual_baudrate = m_i2c_init(desired_baudrate);
+
+  TEST_ASSERT_EQUAL(desired_baudrate, actual_baudrate);
 }
 
 /* ============================================================
@@ -58,6 +69,7 @@ int main(void) {
   RUN_TEST(test_gpio_mock_works);
   RUN_TEST(test_i2c_mock_works);
   RUN_TEST(test_clock_mock_works);
+  RUN_TEST(test_m_i2c_init);
 
   return UNITY_END();
 }

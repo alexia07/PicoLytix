@@ -34,8 +34,9 @@ void gpio_pull_up(uint pin) { (void)pin; }
 void gpio_pull_down(uint pin) { (void)pin; }
 
 // --- I2C Mocks ---
-i2c_inst_t i2c0 = {.id = 0};
-i2c_inst_t i2c1 = {.id = 0};
+
+i2c_inst_t i2c0_inst = {.id = 0};
+i2c_inst_t i2c1_inst = {.id = 1};
 
 int i2c_write_blocking(i2c_inst_t *i2c, uint8_t addr, const uint8_t *src,
                        size_t len, bool nostop) {
@@ -54,6 +55,11 @@ int i2c_read_blocking(i2c_inst_t *i2c, uint8_t addr, uint8_t *buf, size_t len,
   if (buf && len > 0)
     memset(buf, 0xAA, len);
   return (int)len;
+}
+
+uint i2c_init(i2c_inst_t *i2c, uint baudrate) {
+  (void)i2c;
+  return baudrate;
 }
 
 // --- Clocks Mocks ---

@@ -11,7 +11,8 @@
 /**
  * @brief Initializes the I2C interface with a custom baud rate.
  * @param baudrate_Hz The desired baud rate for I2C communication in Hertz.
+ * @return The actual baud rate set for the I2C interface.
  */
-void m_i2c_init(uint baudrate_Hz);
+uint m_i2c_init(uint baudrate_Hz);
 
 #endif // M_I2C_H
