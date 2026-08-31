@@ -1,3 +1,6 @@
 tests/Unity/**
 tests/CMock/**
+tests/Unity/*
+tests/CMock/*
 build/**
+build/*
