@@ -1,5 +1,7 @@
 # PicoLytix
 
+[![Quality gate status](https://sonarcloud.io/api/project_badges/measure?project=alexia07_PicoLytix&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=alexia07_PicoLytix)
+
 **A High-Performance Logical Analyzer for Raspberry Pi Pico**
 
 > **⚠️ Status: Early Development**  
