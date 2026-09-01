@@ -4,8 +4,8 @@
  * functions for testing.
  */
 
-#ifndef _PICO_STDLIB_H
-#define _PICO_STDLIB_H
+#ifndef TESTS_PICO_STDLIB_H
+#define TESTS_PICO_STDLIB_H
 
 #include "hardware/clocks.h"
 #include "hardware/gpio.h"
@@ -16,4 +16,4 @@
 void sleep_ms(uint32_t ms);
 void panic(const char *fmt, ...);
 
-#endif // _PICO_STDLIB_H
+#endif // TESTS_PICO_STDLIB_H

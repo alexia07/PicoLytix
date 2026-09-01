@@ -4,8 +4,8 @@
  * types and functions for testing.
  */
 
-#ifndef _HARDWARE_GPIO_H
-#define _HARDWARE_GPIO_H
+#ifndef TESTS_HARDWARE_GPIO_H
+#define TESTS_HARDWARE_GPIO_H
 
 #include "common.h"
 #include <stdbool.h>
@@ -36,4 +36,4 @@ void gpio_set_function(uint pin, gpio_function_t func);
 void gpio_pull_up(uint pin);
 void gpio_pull_down(uint pin);
 
-#endif // _HARDWARE_GPIO_H
+#endif // TESTS_HARDWARE_GPIO_H

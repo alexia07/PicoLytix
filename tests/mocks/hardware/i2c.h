@@ -4,8 +4,8 @@
  * and functions for testing.
  */
 
-#ifndef _HARDWARE_I2C_H
-#define _HARDWARE_I2C_H
+#ifndef TESTS_HARDWARE_I2C_H
+#define TESTS_HARDWARE_I2C_H
 
 #include "common.h"
 #include <stdbool.h>
@@ -29,4 +29,4 @@ int i2c_write_blocking(i2c_inst_t *i2c, uint8_t addr, const uint8_t *src,
 
 uint i2c_init(i2c_inst_t *i2c, uint baudrate);
 
-#endif // _HARDWARE_I2C_H
+#endif // TESTS_HARDWARE_I2C_H
