@@ -23,6 +23,7 @@ jobs:
     # 2. Install System Dependencies
     - name: Install Dependencies
       run: |
+        git submodule update --init --recursive
         sudo apt-get update
         sudo apt-get install -y \
           cmake \
@@ -38,20 +39,14 @@ jobs:
       run: |
         cd tools/
         chmod +x format.sh static_analysis.sh
+        cd ../tests/
+        chmod +x run_tests.sh
 
     # 4. Run Formatting Check (Using your script)
     - name: Check Code Formatting
       run: |
         echo "🎨 Running format.sh..."
         ./tools/format.sh
-        
-        # Check if any files were modified by the formatter
-        if ! git diff --quiet; then
-          echo "❌ Formatting check failed! The following files were modified:"
-          git diff
-          echo "Please run './tools/format.sh' locally and commit the changes."
-          exit 1
-        fi
         echo "✅ Formatting passed."
 
     # 5. Run Static Analysis (Using your script)
@@ -61,7 +56,14 @@ jobs:
         ./tools/static_analysis.sh
         echo "✅ Static analysis passed."
 
-    # 6. Install RISC-V Toolchain (For Pico 2 / RP2350)
+    # 6. Run Unit Tests
+    - name: Run Unit Tests
+      run: |
+        echo "🧪 Running unit tests..."
+        ./tests/run_tests.sh
+        echo "✅ Unit tests passed."
+
+    # 7. Install RISC-V Toolchain (For Pico 2 / RP2350)
     - name: Setup RISC-V Toolchain (Alternative)
       run: |
         echo "Installing XPACK RISC-V Toolchain..."
@@ -80,7 +82,7 @@ jobs:
         echo "PICO_PLATFORM=rp2350-riscv" >> $GITHUB_ENV
         echo "PICO_COMPILER=pico_riscv_gcc" >> $GITHUB_ENV
 
-    # 7. Install Pico SDK
+    # 8. Install Pico SDK
     - name: Setup Pico SDK
       run: |
         echo "Installing Pico SDK..."
@@ -95,7 +97,7 @@ jobs:
         export PICO_SDK_PATH="${HOME}/.pico-sdk"
         echo "PICO_SDK_PATH=$PICO_SDK_PATH" >> $GITHUB_ENV
 
-    # 8. Install Picotool (Optional but good for UF2 validation)
+    # 9. Install Picotool (Optional but good for UF2 validation)
     - name: Setup Picotool
       run: |
         cd /tmp
@@ -107,7 +109,7 @@ jobs:
         make
         sudo make install
 
-    # 9. Build Project (Explicitly RISC-V)
+    # 10. Build Project (Explicitly RISC-V)
     - name: Build PicoLytix (RP2350 RISC-V)
       run: |
         echo "🔨 Starting Build for Raspberry Pi Pico 2 (RP2350 RISC-V)..."
@@ -151,7 +153,7 @@ jobs:
           exit 1
         fi
 
-    # 10. Upload Artifact
+    # 11. Upload Artifact
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       if: success()

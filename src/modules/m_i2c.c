@@ -10,8 +10,8 @@
 
 #include "board/pico2.h"
 
-void m_i2c_init(uint baudrate_Hz) {
-  i2c_init(I2C_PORT, baudrate_Hz);
+uint m_i2c_init(uint baudrate_Hz) {
+  uint true_baudrate_Hz = i2c_init(I2C_PORT, baudrate_Hz);
 
   gpio_set_function(I2C_SDA, GPIO_FUNC_I2C);
   gpio_set_function(I2C_SCL, GPIO_FUNC_I2C);
@@ -19,4 +19,5 @@ void m_i2c_init(uint baudrate_Hz) {
   gpio_pull_up(I2C_SCL);
   // For more examples of I2C use see
   // https://github.com/raspberrypi/pico-examples/tree/master/i2c
+  return true_baudrate_Hz;
 }
