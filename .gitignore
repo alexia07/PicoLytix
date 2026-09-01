@@ -58,3 +58,10 @@ dkms.conf
 build/
 build*/
 tests/test_runner
+
+# Coverage reports
+coverage/
+out/
+*.gcda
+*.gcno
+*.gcov
