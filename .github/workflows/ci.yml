@@ -33,7 +33,8 @@ jobs:
           python3 \
           libusb-1.0-0-dev \
           wget \
-          lcov
+          lcov \
+          gcovr
 
     # 3. Make Scripts Executable (Safety Step)
     - name: Make Scripts Executable

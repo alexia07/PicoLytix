@@ -59,23 +59,7 @@ echo "🏃 Running Tests..."
 
 echo "📊 Generating Coverage Report..."
 
-# Capture coverage data using lcov
-# --capture: Collect data
-# --directory .: Look in current directory for .gcda files
-# --output-file: Destination
-# --gcov-tool gcov: Explicitly define gcov path if needed
-lcov --capture \
-     --directory "$PROJECT_ROOT" \
-     --output-file "$COVERAGE_DIR/coverage.info" \
-     --gcov-tool gcov
+gcovr --root . --xml --output "$COVERAGE_DIR/sonar-coverage.xml"
 
-# Optional: Remove coverage data for non-source files (like Unity core or mocks) 
-# to keep the report clean for SonarCloud
-lcov --remove "$COVERAGE_DIR/coverage.info" \
-     '*/Unity/*' \
-     '*/mocks/*' \
-     '*/test_*.c' \
-     --output-file "$COVERAGE_DIR/coverage.info"
-
-echo "✅ Coverage report generated at: $COVERAGE_DIR/coverage.info"
+echo "✅ Coverage report generated at: $COVERAGE_DIR/sonar-coverage.xml"
 echo "   You can now upload this file to SonarCloud."
