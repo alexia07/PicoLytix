@@ -1,3 +1,8 @@
+/**
+ * @file test_m_i2c.c
+ * @brief Unit tests for the I2C module (m_i2c).
+ */
+
 #include "hardware/i2c.h"
 #include "pico/stdlib.h"
 #include "unity.h"
