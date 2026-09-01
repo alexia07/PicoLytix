@@ -14,7 +14,7 @@ violations=0
 total_files=0
 
 for dir in "${SEARCH_DIRS[@]}"; do
-    if [ -d "$dir" ]; then
+    if [[ -d "$dir" ]]; then
         echo "   Scanning: $dir/"
         
         while IFS= read -r file; do
@@ -30,7 +30,7 @@ for dir in "${SEARCH_DIRS[@]}"; do
             after_hash=$(md5sum "$file" | awk '{print $1}')
             
             # 4. Compare
-            if [ "$before_hash" != "$after_hash" ]; then
+            if [[ "$before_hash" != "$after_hash" ]]; then
                 echo "      ❌ Modified: $file"
                 violations=$((violations + 1))
             fi
@@ -45,7 +45,7 @@ echo "----------------------------------------"
 echo "Total files checked: $total_files"
 echo "Files modified:      $violations"
 
-if [ $violations -gt 0 ]; then
+if [[ $violations -gt 0 ]]; then
     echo "❌ Formatting check FAILED! $violations file(s) were not properly formatted."
     echo "   Please commit the changes made by this script."
     exit 1

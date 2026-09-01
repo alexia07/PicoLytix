@@ -27,7 +27,7 @@ UNITY_CORE="$UNITY_DIR/src/unity.c"
 # Build the list of all C files
 ALL_FILES="$TEST_FILES $MOCK_FILE $UNITY_CORE"
 for src in "${SOURCE_FILES[@]}"; do
-    if [ -f "$src" ]; then
+    if [[ -f "$src" ]]; then
         ALL_FILES="$ALL_FILES $src"
     else
         echo "⚠️  Warning: Source file not found: $src"
