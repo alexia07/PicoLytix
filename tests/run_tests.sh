@@ -6,6 +6,9 @@ echo "🧪 Compiling Unit Tests with Coverage..."
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
+# Ensure coverage artifacts land in a predictable place for lcov capture
+cd "$PROJECT_ROOT"
+
 UNITY_DIR="$SCRIPT_DIR/Unity"
 MOCKS_DIR="$SCRIPT_DIR/mocks"
 COVERAGE_DIR="$SCRIPT_DIR/coverage"
